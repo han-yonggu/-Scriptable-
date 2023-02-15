@@ -1,0 +1,12 @@
+{
+  "always_run_in_app" : false,
+  "icon" : {
+    "color" : "red",
+    "glyph" : "play"
+  },
+  "name" : "MBC 뉴스 최신 라이브",
+  "script" : "let widget = new ListWidget();\n\n\/\/ 위젯의 배경 색을 설정합니다.\nwidget.backgroundColor = Color.blue();\n\n\/\/ 위젯에 텍스트를 추가합니다.\nlet title1 = widget.addText(\"MBC\");\nlet title2 = widget.addText(\"뉴스\");\n\n\/\/ 현 위치에 문장의 위아래 간격을 삽입합니다.\nwidget.addSpacer(1);\n\nlet subtitle = widget.addText(\"최신 스트리밍 재생\");\n\n\/\/ 추가한 텍스트의 크기와 색을 설정합니다.\n\/* \n글자의 색 변경 방법\n1. 미리 선언되어있는 색을 사용 => title.textColor = Color.white();\n2. Hex 코드를 사용하여 변경 => title.textColor = new Color(\"#000000\");\n*\/\ntitle1.font = Font.systemFont(30);\ntitle1.textColor = Color.white();\ntitle2.font = Font.systemFont(24)\ntitle2.textColor = Color.white();\n\n\/\/ 위젯을 사용하도록 추가합니다.\nScript.setWidget(widget);\nScript.complete();\n\n\/\/ 찾고자하는 유튜브 채널의 실시간탭을 클릭후 url주소를 복사하여 \"\"안에 붙여넣습니다. - \"https:\/\/youtube.com\/@채널명\/streams\"\nconst url = \"https:\/\/youtube.com\/@MBCNEWS11\/streams\";\n\nlet wv = new WebView();\nawait wv.loadURL(url);\n\nlet js = `\n    let list = [];\n    \n    list = document.querySelectorAll(\"#video-title-link\");\n\n    let result = list[0].getAttribute(\"href\");\n    \n    console.log(\"found url : \" + result);\n        \n    completion(result);\n`;\n\nlet link = await wv.evaluateJavaScript(js, true);\n\n\/\/ 찾기완료한 최신 라이브 영상의 주소입니다.\nconst fullLink = \"https:\/\/www.youtube.com\/\"+link;\n\nconsole.log(fullLink);\n\n\/\/ 찾은 주소를 사파리에서 엽니다.(유튜브 앱이 설치되어있으면 자동으로 유튜브 앱으로 넘어갑니다.)\nSafari.open(fullLink);",
+  "share_sheet_inputs" : [
+
+  ]
+}
